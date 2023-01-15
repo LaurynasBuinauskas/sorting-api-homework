@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sorting.Api.Homework.WebApi.Tests.Performance
+namespace Sorting.Api.Homework.WebApi.Tests.Performance;
+
+internal interface IAlgorithmSpeedComparison
 {
-    internal interface IAlgorithmSpeedComparison
-    {
-        public IEnumerable<KeyValuePair<string, long>> GetPerformanceList(int length);
-    }
+    public IEnumerable<KeyValuePair<string, long>> GetPerformanceList(int length);
 }

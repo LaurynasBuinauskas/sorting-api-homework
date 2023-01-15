@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6155C004
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sorting.Api.Homework.WebApi.Tests.Unit", "tests\Sorting.Api.Homework.WebApi.Tests.Unit\Sorting.Api.Homework.WebApi.Tests.Unit.csproj", "{CCD37E4B-A577-45C2-9CAE-FA22286C8314}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sorting.Api.Homework.WebApi.Tests.Performance", "tests\Sorting.Api.Homework.WebApi.Tests.Performance\Sorting.Api.Homework.WebApi.Tests.Performance.csproj", "{177318E9-E7C2-4F4F-BABE-8370A5DC748B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sorting.Api.Homework.WebApi.Tests.Performance", "tests\Sorting.Api.Homework.WebApi.Tests.Performance\Sorting.Api.Homework.WebApi.Tests.Performance.csproj", "{177318E9-E7C2-4F4F-BABE-8370A5DC748B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
