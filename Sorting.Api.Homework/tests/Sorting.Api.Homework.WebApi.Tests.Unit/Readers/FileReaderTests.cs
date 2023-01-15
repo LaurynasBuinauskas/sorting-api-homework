@@ -1,4 +1,6 @@
-﻿namespace Sorting.Api.Homework.WebApi.Tests.Unit.Readers
+﻿using System.IO;
+
+namespace Sorting.Api.Homework.WebApi.Tests.Unit.Readers
 {
     internal class FileReaderTests
     {
@@ -10,11 +12,12 @@
         
         protected const string testDirectoryName = "SortingTestResults";
 
-        protected const string NotFoundExceptionMessage = "An error occurred while trying to open a file: No files found in the directory.";
+        protected const string FileNotFoundExceptionMessage = "An error occurred while trying to open a file: No files found in the directory.";
         protected const string UnauthorizedAccessExceptionMessage = "An error occurred while reading the file: Attempted to perform an unauthorized operation.";
         protected const string IOExceptionMessage = "An error occurred while reading the file: I/O error occurred.";
         protected const string GenericExceptionMessage = "An error occured while reading sorted numbers: Exception of type 'System.Exception' was thrown.";
-                     
+        protected const string DirectoryNotFoundExceptionMessage = "An error occurred while opening the directory: Directory not found";
+
         protected string[] files;
 
         protected const string fileContentString = "1 2 3 5 7 11 21 31 111";
@@ -54,7 +57,8 @@
         [Test]
         public async Task Should_Read_Latest_File()
         {
-            // Given            
+            // Given
+            _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(true);
             _fileSystemMock.Setup(x => x.Directory.GetFiles(_directory))
                 .Returns(files);
 
@@ -67,25 +71,26 @@
         }
 
         [Test]
-        public async Task Should_Throw_File_NotFoundException()
+        public async Task Should_Throw_DirectoryNotFound()
         {
-            // Given         
-            var emptyFileList = new string[] { };           
-            _fileSystemMock.Setup(x => x.Directory.GetFiles(_directory))
-                .Returns(emptyFileList);
+            // Given             
+            _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(false);
 
-            // When/Then
-            var exception = Assert.ThrowsAsync<FileNotFoundException>(async () => 
+            // When
+            var exception = Assert.ThrowsAsync<DirectoryNotFoundException>(async () =>
                 await _fileReader.ReadLatestFile(testDirectoryName));
 
+            var message = exception.Message;
+
             // Then
-            Assert.That(exception.Message, Is.EqualTo(NotFoundExceptionMessage));
+            Assert.That(exception.Message, Is.EqualTo(DirectoryNotFoundExceptionMessage));
         }
 
         [Test]
         public async Task Should_Throw_FileNotFoundException()
         {
-            // Given             
+            // Given
+            _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(true);
             _fileSystemMock.Setup(x => x.Directory.GetFiles(It.IsAny<string>()))
                 .Returns(new string[0]);
 
@@ -94,13 +99,14 @@
                 await _fileReader.ReadLatestFile(testDirectoryName));
 
             // Then
-            Assert.That(exception.Message, Is.EqualTo(NotFoundExceptionMessage));
+            Assert.That(exception.Message, Is.EqualTo(FileNotFoundExceptionMessage));
         }
 
         [Test]
         public async Task Should_Throw_UnauthorizedAccessException()
         {
             // Given
+            _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(true);
             _fileSystemMock.Setup(x => x.Directory.GetFiles(It.IsAny<string>()))
                 .Returns(files);
 
@@ -120,6 +126,7 @@
         public async Task Should_Throw_IOException()
         {
             // Given
+            _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(true);
             _fileSystemMock.Setup(x => x.Directory.GetFiles(It.IsAny<string>()))
                 .Returns(files);
 
@@ -139,6 +146,7 @@
         public async Task Should_Throw_Generic_Exception()
         {
             // Given
+            _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(true);
             _fileSystemMock.Setup(x => x.Directory.GetFiles(It.IsAny<string>()))
                 .Returns(files);
 
