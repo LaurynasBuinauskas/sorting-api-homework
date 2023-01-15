@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Sorting.Api.Homework.WebApi\Sorting.Api.Homework.WebApi.csproj" />
   </ItemGroup>
 
