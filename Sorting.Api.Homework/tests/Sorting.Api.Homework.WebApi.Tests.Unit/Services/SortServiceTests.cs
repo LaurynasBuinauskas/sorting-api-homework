@@ -5,15 +5,15 @@ namespace Sorting.Api.Homework.WebApi.Tests.Unit.Services;
 
 internal class SortServiceTests
 {
-    private SortService _sortService;
-    private Mock<ISortAlgorithm> _sortAlgorithmMock;
-    private Mock<IFileWriter> _fileWriterMock;
-    private Mock<IFileReader> _fileReaderMock;
+    protected SortService _sortService;
+    protected Mock<ISortAlgorithm> _sortAlgorithmMock;
+    protected Mock<IFileWriter> _fileWriterMock;
+    protected Mock<IFileReader> _fileReaderMock;
 
-    private const string testString = "1 2 3 5 7 11 21 31 111";
+    protected const string testString = "1 2 3 5 7 11 21 31 111";
     protected readonly int[] sortedArray = { 1, 2, 3, 5, 7, 11, 21, 31, 111 };
 
-    private const string fileName = "MergeSort_result";
+    protected const string fileName = "MergeSort_result";
 
     [SetUp]
     public void SetUp()
