@@ -13,6 +13,7 @@ internal class FileWriterTests
     protected const string UnauthorizedAccessExceptionMessage = "An error occurred while writing the submitted to a file: Attempted to perform an unauthorized operation.";
     protected const string IOExceptionMessage = "An error occurred while writing the submitted to a file: I/O error occurred.";
     protected const string GenericExceptionMessage = "An error occured while saving the submitted numbers: Exception of type 'System.Exception' was thrown.";
+    protected const string DirectoryNotFoundExceptionMessage = "An error occurred while creating a directory: Attempted to access a path that is not on the disk.";
 
 
     [SetUp]
@@ -42,7 +43,26 @@ internal class FileWriterTests
             It.IsAny<string>(),
             It.IsAny<string>(),
             CancellationToken.None), Times.Once());
-    }    
+    }
+
+    [Test]
+    public async Task Should_Throw_DirectoryNotFoundException()
+    {
+        // Given
+        _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(true);
+
+        _fileSystemMock.Setup(x => x.File.WriteAllTextAsync(
+            It.IsAny<string>(),
+            It.IsAny<string>(),
+            CancellationToken.None))
+            .ThrowsAsync(new DirectoryNotFoundException());
+
+        // When/Then
+        var exception = Assert.ThrowsAsync<DirectoryNotFoundException>(async () =>
+            await _fileWriter.WriteToFile(testFileName, testDirectoryName, testFileContent));        
+
+        Assert.That(exception.Message, Is.EqualTo(DirectoryNotFoundExceptionMessage));
+    }
 
     [Test]
     public async Task Should_Throw_UnauthorizedAccessException()

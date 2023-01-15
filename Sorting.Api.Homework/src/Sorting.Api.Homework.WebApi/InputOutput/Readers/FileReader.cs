@@ -22,7 +22,12 @@ namespace Sorting.Api.Homework.WebApi.InputOutput.Readers
                 var projectDirectory = AppContext.BaseDirectory;
                 var directory = _fileSystem.Path.Combine(
                     projectDirectory,
-                    directoryName);                
+                    directoryName);
+
+                if (!_fileSystem.Directory.Exists(directory))
+                {
+                    throw new DirectoryNotFoundException($"Directory not found");
+                }
 
                 // Getting all the files in that directory that end with .txt
                 var files = _fileSystem.Directory.GetFiles(directory)
