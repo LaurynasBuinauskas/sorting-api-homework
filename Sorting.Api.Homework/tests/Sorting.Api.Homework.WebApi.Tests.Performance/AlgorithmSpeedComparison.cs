@@ -5,6 +5,7 @@ using Sorting.Api.Homework.WebApi.Constants;
 
 namespace Sorting.Api.Homework.Tests.Performance;
 
+// Implementation of the algorithm speed comparison
 public class AlgorithmSpeedComparison : IAlgorithmSpeedComparison
 {
     private readonly ISortAlgorithm _sortAlgorithm;
@@ -14,6 +15,7 @@ public class AlgorithmSpeedComparison : IAlgorithmSpeedComparison
         _sortAlgorithm = sortAlgorithm;
     }
 
+    // Method for creating the performance result dictionary
     public IEnumerable<KeyValuePair<string, long>> GetPerformanceList(int length)
     {
         var algorithms = new List<string> {
@@ -28,6 +30,7 @@ public class AlgorithmSpeedComparison : IAlgorithmSpeedComparison
         return executionTimes.OrderBy(x => x.Value);        
     }
 
+    // Method for measuring the execution time a the algorthm
     private long MeasureExecutionTime(List<int> numbers, string algorithm)
     {
         var numbersCopy = new List<int>(numbers);

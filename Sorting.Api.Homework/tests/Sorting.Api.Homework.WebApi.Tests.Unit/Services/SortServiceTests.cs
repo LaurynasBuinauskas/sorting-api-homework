@@ -1,16 +1,5 @@
-﻿using Sorting.Api.Homework.WebApi.Constants;
-using Sorting.Api.Homework.WebApi.Exceptions;
-using Sorting.Api.Homework.WebApi.InputOutput.Readers;
-using Sorting.Api.Homework.WebApi.InputOutput.Writers;
-using Sorting.Api.Homework.WebApi.Models;
-using Sorting.Api.Homework.WebApi.Models.DTO;
+﻿using Sorting.Api.Homework.WebApi.Models.DTO;
 using Sorting.Api.Homework.WebApi.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sorting.Api.Homework.WebApi.Tests.Unit.Services;
 
@@ -107,6 +96,8 @@ internal class SortServiceTests
     {
         // Given
         var invalidArrayString = "1, 2, 3, 5 7 11 21 31";
+        var errorMessage = $"Invalid input string was submitted in the request {invalidArrayString}. " +
+                $"The array string should look like this: 1 0 7 4 2";
 
         // When
         var exception = Assert.ThrowsAsync<InvalidRequestArrayException>(async () =>
@@ -117,7 +108,7 @@ internal class SortServiceTests
         }));
 
         // Then
-        Assert.That(exception.Message, Is.EqualTo("Invalid input string was submitted in the request"));
+        Assert.That(exception.Message, Is.EqualTo(errorMessage));
         _sortAlgorithmMock.Verify(x => x.Sort(
             It.IsAny<List<int>>(), It.IsAny<string>()), Times.Never);
         _fileWriterMock.Verify(x => x.WriteToFile(
@@ -133,12 +124,14 @@ internal class SortServiceTests
             SortAlgorithm = "Invalid"         
         };
 
+        var errorMessage = $"Invalid sort algorithm: {request.SortAlgorithm}. Available options are: ";
+
         // When
         var exception = Assert.ThrowsAsync<InvalidAlgorithmException>(async () => 
             await _sortService.ChooseSortAndSaveNumbers(request));
 
         // Then
-        Assert.That(exception.Message, Does.StartWith($"Invalid sort algorithm: Invalid. Available options are: "));
+        Assert.That(exception.Message, Does.StartWith(errorMessage));
         _sortAlgorithmMock.Verify(x => x.Sort(
             It.IsAny<List<int>>(), It.IsAny<string>()), Times.Never);
         _fileWriterMock.Verify(x => x.WriteToFile(

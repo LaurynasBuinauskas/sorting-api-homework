@@ -2,6 +2,7 @@
 
 namespace Sorting.Api.Homework.WebApi.Models.DTO
 {
+    // Model for the algorithm choice and input array request
     public class SortRequestDTO
     {
         [JsonPropertyName(nameof(ArrayString))]

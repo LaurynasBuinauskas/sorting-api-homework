@@ -1,3 +1,4 @@
+using Sorting.Api.Homework.WebApi.Algorithms;
 using Sorting.Api.Homework.WebApi.InputOutput.Readers;
 using Sorting.Api.Homework.WebApi.InputOutput.Writers;
 using Sorting.Api.Homework.WebApi.Services;
@@ -6,14 +7,14 @@ using System.IO.Abstractions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-
 builder.Services.AddTransient<IFileSystem, FileSystem>();
+builder.Services.AddTransient<ISortAlgorithm, SortAlgorithm>();
 builder.Services.AddTransient<IFileWriter, FileWriter>();
 builder.Services.AddTransient<IFileReader, FileReader>();
 builder.Services.AddTransient<ISortService, SortService>();
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
