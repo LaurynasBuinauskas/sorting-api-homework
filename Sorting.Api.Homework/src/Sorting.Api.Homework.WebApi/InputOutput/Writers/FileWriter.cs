@@ -1,6 +1,4 @@
-﻿using Sorting.Api.Homework.WebApi.Algorithms;
-using System.IO.Abstractions;
-using System.Text;
+﻿using System.IO.Abstractions;
 
 namespace Sorting.Api.Homework.WebApi.InputOutput.Writers;
 
@@ -19,6 +17,7 @@ public class FileWriter : IFileWriter
     {
         try
         {
+            // Constructing the file path
             var projectDirectory = AppContext.BaseDirectory;
             var directory = _fileSystem.Path.Combine(projectDirectory, directoryName);
 
@@ -28,6 +27,7 @@ public class FileWriter : IFileWriter
             }
             string filePath = _fileSystem.Path.Combine(directory, fileName);
 
+            // Creating the file and writing to it
             await _fileSystem.File.WriteAllTextAsync(filePath, content);
         }
         catch (DirectoryNotFoundException e) 

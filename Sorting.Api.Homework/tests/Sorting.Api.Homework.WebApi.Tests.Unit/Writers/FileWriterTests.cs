@@ -1,8 +1,4 @@
-﻿using Sorting.Api.Homework.WebApi.InputOutput.Writers;
-using System.IO;
-using System.IO.Abstractions;
-
-namespace Sorting.Api.Homework.WebApi.Tests.Unit.Writers;
+﻿namespace Sorting.Api.Homework.WebApi.Tests.Unit.Writers;
 
 internal class FileWriterTests
 {
@@ -46,36 +42,7 @@ internal class FileWriterTests
             It.IsAny<string>(),
             It.IsAny<string>(),
             CancellationToken.None), Times.Once());
-    }
-
-    [Test]
-    public async Task Should_Create_Directory_When_It_Does_Not_Exist()
-    {
-        // Given              
-        _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(false);        
-
-        // When
-        await _fileWriter.WriteToFile(testFileName, testDirectoryName, testFileContent);
-
-        // Then
-        _fileSystemMock.Verify(
-            x => x.Directory.CreateDirectory(
-                It.Is<string>(s => s == $"{AppContext.BaseDirectory}\\{testDirectoryName}")),
-                Times.Once());
-    }
-
-    [Test]
-    public async Task Should_Not_Create_Directory_When_It_Exists()
-    {
-        // Given           
-        _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(true);
-        
-        // When
-        await _fileWriter.WriteToFile(testFileName, testDirectoryName, testFileContent);
-
-        // Then
-        _fileSystemMock.Verify(x => x.Directory.CreateDirectory(It.IsAny<string>()), Times.Never());
-    }
+    }    
 
     [Test]
     public async Task Should_Throw_UnauthorizedAccessException()
@@ -132,5 +99,34 @@ internal class FileWriterTests
             await _fileWriter.WriteToFile(testFileName, testDirectoryName, testFileContent));        
 
         Assert.That(exception.Message, Is.EqualTo(GenericExceptionMessage));
+    }
+
+    [Test]
+    public async Task Should_Create_Directory_When_It_Does_Not_Exist()
+    {
+        // Given              
+        _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(false);
+
+        // When
+        await _fileWriter.WriteToFile(testFileName, testDirectoryName, testFileContent);
+
+        // Then
+        _fileSystemMock.Verify(
+            x => x.Directory.CreateDirectory(
+                It.Is<string>(s => s == $"{AppContext.BaseDirectory}\\{testDirectoryName}")),
+                Times.Once());
+    }
+
+    [Test]
+    public async Task Should_Not_Create_Directory_When_It_Exists()
+    {
+        // Given           
+        _fileSystemMock.Setup(x => x.Directory.Exists(It.IsAny<string>())).Returns(true);
+
+        // When
+        await _fileWriter.WriteToFile(testFileName, testDirectoryName, testFileContent);
+
+        // Then
+        _fileSystemMock.Verify(x => x.Directory.CreateDirectory(It.IsAny<string>()), Times.Never());
     }
 }

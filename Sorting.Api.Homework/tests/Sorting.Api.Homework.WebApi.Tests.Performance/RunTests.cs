@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Sorting.Api.Homework.Tests.Performance;
 using Sorting.Api.Homework.WebApi.Algorithms;
-using System;
 
 namespace Sorting.Api.Homework.WebApi.Tests.Performance;
 internal class RunTests
 {
+    // Code to run the test
     static void Main(string[] args)
     {
         var builder = new ContainerBuilder();
@@ -34,5 +34,7 @@ internal class RunTests
     // Algorithm: MergeSort, execution time: 3 ms
     // Algorithm: InsertionSort, execution time: 145 ms
     // Algorithm: BubbleSort, execution time: 469 ms
+    // From these results we can come to the conclusion that merge sort is the fastest sorting
+    // algorithm from that were implemented, which is why it will be used as the default sorting algorithm
 }
 

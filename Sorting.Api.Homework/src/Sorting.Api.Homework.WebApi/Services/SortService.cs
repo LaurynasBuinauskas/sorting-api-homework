@@ -25,13 +25,15 @@ public class SortService : ISortService
     }
 
     // Method for applying the sorting algorithm for the input integer list
-    // and saving it to a file
+    // and saving that list to a file
     public async Task<string> MergeSortAndSaveNumbers(string numbers)
     {
         // Check if the input string is valid
         if (!numbers.IsValidInputString())
         {
-            throw new InvalidRequestArrayException("Invalid input string was submitted in the request");
+            throw new InvalidRequestArrayException(
+                $"Invalid input string was submitted in the request {numbers}. " +
+                $"The array string should look like this: 1 0 7 4 2");
         }
 
         try
@@ -58,15 +60,18 @@ public class SortService : ISortService
         }
     }
 
-    // Method for applying the chsone sorting algorithm for the input integer list
-    // and saving it to a file
+    // Method for applying the chosen sorting algorithm for the input integer list
+    // and saving that list to a file
     public async Task<string> ChooseSortAndSaveNumbers(SortRequestDTO request)
     {
         // Check if the request array string is valid
         if (!request.ArrayString.IsValidInputString())
         {
-            throw new InvalidRequestArrayException("Invalid input string was submitted in the request");
+            throw new InvalidRequestArrayException(
+                $"Invalid input string was submitted in the request {request.ArrayString}. " +
+                $"The array string should look like this: 1 0 7 4 2");
         }
+
         // Check if the request algorithm is valid
         if (!request.SortAlgorithm.IsValidSortAlgorithm())
         {
@@ -105,7 +110,7 @@ public class SortService : ISortService
         try
         {
             return await _fileReader.ReadLatestFile(FileSaveDefaults.DirecotoryName);
-        }
+        }        
         catch (Exception)
         {
             throw;
@@ -122,11 +127,5 @@ public class SortService : ISortService
     private static string CreateFileName(string algorithm, string fileName)
     {
         return $"{algorithm}_{fileName}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-    }
-
-    // Method to get the list of algorithm names
-    private static IEnumerable<string> GetAvailableAlgorithms()
-    {
-        return Enum.GetNames(typeof(AlgorithmNames));
-    }
+    }    
 }

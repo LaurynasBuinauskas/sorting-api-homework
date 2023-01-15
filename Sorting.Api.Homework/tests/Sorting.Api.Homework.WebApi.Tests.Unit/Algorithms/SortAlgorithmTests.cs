@@ -1,7 +1,4 @@
-﻿using Sorting.Api.Homework.WebApi.Exceptions;
-using System.Diagnostics;
-
-namespace Sorting.Api.Homework.WebApi.Tests.Unit.Algorithms;
+﻿namespace Sorting.Api.Homework.WebApi.Tests.Unit.Algorithms;
 
 internal class SortAlgorithmTests
 {
@@ -23,32 +20,32 @@ internal class SortAlgorithmTests
     [TestCase("InsertionSort")]
     public void Should_Sort_Using_Chosen_Algorithm(string algorithm)
     {
-        //Given
+        // Given
         var numbers = new List<int> {
             8, 20, 11, 14, 1, 12, 19, 7, 3, 15, 111, 9, 6, 5, 16
         };            
 
-        //When
+        // When
         _sortAlgorithm.Sort(numbers, algorithm);            
 
-        //Then
+        // Then
         CollectionAssert.AreEqual(_sortedNumbers, numbers);
     }
 
     [Test]
     public void Should_Throw_Invalid_Algorithm_Exception()
     {
-        //Given
+        // Given
         var numbers = new List<int> {
             8, 20, 11, 14, 1, 12, 19, 7, 3, 15, 111, 9, 6, 5, 16
         };
 
         var algorithm = "Invalid";
 
-        //When
+        // When
         var exception = Assert.Throws<InvalidAlgorithmException>(() => _sortAlgorithm.Sort(numbers, algorithm));
 
-        //Then
+        // Then
         Assert.That(exception.Message, Is.EqualTo("Invalid sorting algorithm was chosen"));
     }        
 }

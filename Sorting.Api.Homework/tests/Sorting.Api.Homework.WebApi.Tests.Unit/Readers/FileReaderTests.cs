@@ -1,14 +1,4 @@
-﻿using Sorting.Api.Homework.WebApi.InputOutput.Readers;
-using Sorting.Api.Homework.WebApi.InputOutput.Writers;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Abstractions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sorting.Api.Homework.WebApi.Tests.Unit.Readers
+﻿namespace Sorting.Api.Homework.WebApi.Tests.Unit.Readers
 {
     internal class FileReaderTests
     {
@@ -24,9 +14,7 @@ namespace Sorting.Api.Homework.WebApi.Tests.Unit.Readers
         protected const string UnauthorizedAccessExceptionMessage = "An error occurred while reading the file: Attempted to perform an unauthorized operation.";
         protected const string IOExceptionMessage = "An error occurred while reading the file: I/O error occurred.";
         protected const string GenericExceptionMessage = "An error occured while reading sorted numbers: Exception of type 'System.Exception' was thrown.";
-
-
-             
+                     
         protected string[] files;
 
         protected const string fileContentString = "1 2 3 5 7 11 21 31 111";
